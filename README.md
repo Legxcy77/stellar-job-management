@@ -1,6 +1,8 @@
 # Stellar Job Management System
 Enterprise Field Operations, Service Dispatch, and Material Control Platform
 
+[ภาษาไทย (Thai Version)](README.th.md)
+
 ## Executive Summary
 
 Stellar Job Management is a full-stack engineering platform designed for technical service organizations, maintenance contractors, and field service teams. The system centralizes work order dispatching, GPS route optimization, digital proof-of-work, and spare parts inventory tracking into a unified, high-concurrency architecture.
