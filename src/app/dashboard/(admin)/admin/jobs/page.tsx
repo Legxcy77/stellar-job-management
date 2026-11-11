@@ -3,7 +3,7 @@
 import React, { useState, useMemo, useCallback } from "react";
 import { useRouter } from "next/navigation";
 import { useSession } from "next-auth/react";
-import { Plus, Pencil, Search, MoreHorizontal, Calendar as CalendarIcon, Filter, X, Trash2 } from "lucide-react";
+import { Plus, Pencil, Search, MoreHorizontal, Calendar as CalendarIcon, Filter, X, Trash2, Download } from "lucide-react";
 import { format, isWithinInterval, parseISO } from "date-fns";
 import { Button } from "@/components/ui/button";
 import {
@@ -96,6 +96,31 @@ const JobsList = () => {
   const [selectedDepartment, setSelectedDepartment] = useState<string>("all");
   const [selectedPriority, setSelectedPriority] = useState<string>("all");
   const [selectedStatus, setSelectedStatus] = useState<string>("all");
+  const [isExporting, setIsExporting] = useState(false);
+
+  const handleExportCSV = async () => {
+    try {
+      setIsExporting(true);
+      const res = await fetch("/api/jobs/export");
+      if (!res.ok) {
+        throw new Error("ไม่สามารถดาวน์โหลดไฟล์ CSV ได้");
+      }
+      const blob = await res.blob();
+      const url = window.URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = `jobs_export_${format(new Date(), "yyyy-MM-dd")}.csv`;
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+      window.URL.revokeObjectURL(url);
+      toast.success("ดาวน์โหลดไฟล์ CSV รายการงานเรียบร้อยแล้ว");
+    } catch (err: any) {
+      toast.error(err.message || "เกิดข้อผิดพลาดในการ Export CSV");
+    } finally {
+      setIsExporting(false);
+    }
+  };
 
   // 8. Helper function สำหรับสีสถานะ (ปรับตาม Job)
   const getStatusColor = (status: string) => {
@@ -593,9 +618,18 @@ const JobsList = () => {
 
 
         {/* ACTION BAR */}
-        <div className="mb-4 sm:mb-4 flex items-center justify-between">
+        <div className="mb-4 sm:mb-4 flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3">
           <div />
-          <div>
+          <div className="flex items-center gap-2">
+            <Button
+              variant="outline"
+              onClick={handleExportCSV}
+              disabled={isExporting}
+              className="border-gray-300 dark:border-gray-700 hover:bg-gray-100 dark:hover:bg-gray-800 h-10 w-full sm:w-auto font-medium"
+            >
+              <Download className="h-4 w-4 mr-2" />
+              {isExporting ? "กำลังส่งออก..." : "Export CSV (งานทั้งหมด)"}
+            </Button>
             {!isLead(currentUser?.role || '') && (
               <Button
                 onClick={handleCreateNewJob} // 15. เปลี่ยน handler

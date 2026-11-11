@@ -8,39 +8,74 @@ import { useJobStore } from "@/stores/features/jobStore";
 import THSarabunNew from "@/lib/fonts/THSarabunNew-normal";
 import dayjs from "dayjs";
 import 'dayjs/locale/th';
+import { toast } from "sonner";
 
 export default function ExportInventoryData() {
   const { inventoryRequests, inventories } = useInventoryStore();
-  const { getJobById } = useJobStore();
+  const { getJobById, jobs } = useJobStore();
 
-  // Prepare data: Filter approved requests and flatten items
+  // Prepare data: Filter approved requests and approved jobs
   const getExportData = () => {
-    const approvedRequests = inventoryRequests.filter(req => req.status === 'approved');
-
-    return approvedRequests.flatMap(req => {
+    // 1. From local inventoryRequests (if any exist in store)
+    const approvedRequests = (inventoryRequests || []).filter(req => req.status === 'approved');
+    const fromRequests = approvedRequests.flatMap(req => {
       const job = getJobById(req.jobId);
       const items = typeof req.items === 'string' ? JSON.parse(req.items) : (req as any).requestedItems || [];
       if (!Array.isArray(items)) return [];
       
       return items.map((item: any) => {
         const inventoryInfo = inventories.find(inv => inv.id === item.id);
+        const unitPrice = inventoryInfo?.price || 0;
+        const qty = item.qty || 1;
         return {
           id: req.id,
-          date: req.processedAt || req.requestedAt,
+          date: req.processedAt || req.requestedAt || new Date().toISOString(),
           jobTitle: job?.title || 'Unknown Job',
-          requester: req.requestedBy.name,
+          requester: req.requestedBy?.name || 'ช่างเทคนิค',
           itemName: inventoryInfo?.name || 'Unknown Item',
-          quantity: item.qty,
-          price: inventoryInfo?.price || 0,
-          total: (inventoryInfo?.price || 0) * item.qty,
-          approver: req.processedBy?.name || '-'
+          quantity: qty,
+          price: unitPrice,
+          total: unitPrice * qty,
+          approver: req.processedBy?.name || (req as any).approvedBy?.name || '-'
         };
       });
     });
+
+    // 2. From Database Jobs that have inventoryStatus === 'approved' and usedInventory
+    const approvedJobs = (jobs || []).filter(
+      (job) => job.inventoryStatus === 'approved' && Array.isArray(job.usedInventory) && job.usedInventory.length > 0
+    );
+    const fromJobs = approvedJobs.flatMap((job) => {
+      const items = job.usedInventory || [];
+      return items.map((item: any, idx: number) => {
+        const inventoryInfo = inventories.find((inv) => inv.id === item.id);
+        const unitPrice = inventoryInfo?.price || 200;
+        const qty = Number(item.qty) || 1;
+        return {
+          id: `REQ-${job.id.slice(0, 6).toUpperCase()}-${idx + 1}`,
+          date: job.createdAt ? new Date(job.createdAt).toISOString() : new Date().toISOString(),
+          jobTitle: job.title,
+          requester: (job.leadTechnician as any)?.name || (job.creator as any)?.name || 'หัวหน้าทีมช่าง',
+          itemName: inventoryInfo?.name || `อุปกรณ์ (${item.id})`,
+          quantity: qty,
+          price: unitPrice,
+          total: unitPrice * qty,
+          approver: (job.creator as any)?.name || 'ผู้จัดการฝ่าย'
+        };
+      });
+    });
+
+    return [...fromRequests, ...fromJobs];
   };
 
   const exportPDF = () => {
     const data = getExportData();
+    if (data.length === 0) {
+      toast.info("ยังไม่มีรายการเบิกที่อนุมัติแล้วในระบบ", {
+        description: "สามารถอนุมัติคำขอเบิกในแท็บ 'คำขอเบิกวัสดุจากใบงาน' ก่อนเพื่อทดสอบได้ครับ"
+      });
+      return;
+    }
     const doc = new jsPDF({ orientation: "portrait", unit: "mm", format: "a4" });
     const pageMargin = 15;
 
@@ -149,6 +184,12 @@ export default function ExportInventoryData() {
 
   const exportCSV = () => {
     const data = getExportData();
+    if (data.length === 0) {
+      toast.info("ยังไม่มีรายการเบิกที่อนุมัติแล้วในระบบ", {
+        description: "สามารถอนุมัติคำขอเบิกในแท็บ 'คำขอเบิกวัสดุจากใบงาน' ก่อนเพื่อทดสอบได้ครับ"
+      });
+      return;
+    }
     const headers = [
       "Request ID",
       "Date Approved",
