@@ -1,5 +1,5 @@
 # Stellar Job Management System
-Enterprise Field Operations, Service Dispatch, and Material Control Platform [ไปที่ภาษาไทย (Thai Version)](README.th.md)
+Enterprise Field Operations, Service Dispatch, and Material Control Platform [เวอร์ชันภาษาไทย (Thai Version)](README.th.md)
 
 
 ## Executive Summary
