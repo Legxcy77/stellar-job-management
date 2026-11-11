@@ -6,6 +6,7 @@ import Sidebar from "@/components/layout/Sidebar";
 import Navbar from "@/components/layout/Navbar";
 import { motion, AnimatePresence } from "framer-motion";
 import { DataInitializer } from "@/components/DataInitializer";
+import ProductTour from "@/components/global/ProductTour";
 import { usePathname } from "next/navigation";
 export default function DashboardLayout({
   children,
@@ -29,7 +30,7 @@ export default function DashboardLayout({
       <div className="flex h-screen overflow-hidden">
         {/* Sidebar (ซ้าย) */}
         {/* ✅ Desktop */}
-        <aside className="hidden lg:block bg-muted/40 ">
+        <aside id="tour-sidebar" className="hidden lg:block bg-muted/40 ">
           <Sidebar />
         </aside>
 
@@ -76,6 +77,7 @@ export default function DashboardLayout({
                 {children}
               </motion.div>
             </AnimatePresence>
+            <ProductTour />
           </main>
         </div>
       </div>
