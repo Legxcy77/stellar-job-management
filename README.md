@@ -1,4 +1,4 @@
-# 🛠️ Stellar - Technical Job & Field Service Operations Management Platform
+# Stellar - Technical Job & Field Service Operations Management Platform
 
 [![Next.js](https://img.shields.io/badge/Next.js-15.5-black?style=flat-square&logo=next.js)](https://nextjs.org/)
 [![React](https://img.shields.io/badge/React-19-blue?style=flat-square&logo=react)](https://react.dev/)
@@ -11,33 +11,33 @@
 
 ---
 
-## 🌟 Key Features (ฟีเจอร์หลัก)
+##  Key Features (ฟีเจอร์หลัก)
 
-### 1. 📋 Job & Task Management (ระบบจัดการงานซ่อมบำรุง)
+### 1. Job & Task Management (ระบบจัดการงานซ่อมบำรุง)
 - มอบหมายงานและแต่งตั้ง Lead Technician ประจำไซต์งาน
 - กระจายงานตามแผนก: Electrical, Mechanical, Civil, Technical
 - เช็คลิสต์ขั้นตอนการทำงาน (Sub-tasks) และรายงานสถานะ (Work Logs) พร้อมภาพ Before / After
 - Digital Signature: ลงลายมือชื่อดิจิทัลรับรองการปิดงานผ่านหน้าเว็บ
 
-### 2. 🗺️ Geolocation & Field Service Routing
+### 2. Geolocation & Field Service Routing
 - Interactive Map ด้วย Leaflet & OpenStreetMap ระบุพิกัดสถานที่ทำงาน
 - คำนวณเส้นทางและนำทางทีมช่างไปยังจุดเกิดเหตุแบบแม่นยำ
 
-### 3. 📦 Inventory & Spare Parts Control (คลังพัสดุและเบิกจ่าย)
+### 3. Inventory & Spare Parts Control (คลังพัสดุและเบิกจ่าย)
 - จัดการสต็อกพัสดุ/อะไหล่พร้อมระบบแจ้งเตือนเมื่อสินค้าใกล้หมด (Low Stock Warning)
 - ระบบร้องขอเบิกอะไหล่ (Inventory Requests) พร้อม Flow การอนุมัติ (Pending / Approved / Rejected) โดยหัวหน้างาน
 
-### 4. 🚨 Multi-Department Incident Reports (ระบบแจ้งปัญหาข้ามแผนก)
+### 4. Multi-Department Incident Reports (ระบบแจ้งปัญหาข้ามแผนก)
 - แจ้งปัญหา/แจ้งเหตุฉุกเฉิน (Bug, Incident, Feature Request)
 - รองรับงานที่ต้องประสานงานข้ามหลายแผนก (Multi-department resolution & forward tracking)
 
-### 5. 🔒 Security, Roles & Audit Logging
+### 5. Security, Roles & Audit Logging
 - Role-based Access Control (Admin, Manager, Lead Technician, Employee) ผ่าน NextAuth
 - ระบบ Audit Log บันทึกทุกความเปลี่ยนแปลงในระบบ (Who, When, What changed) เพื่อความโปร่งใส
 
 ---
 
-## 🏗️ Architecture & Tech Stack
+## Architecture & Tech Stack
 
 - **Frontend**: Next.js 15 (App Router), React 19, Tailwind CSS v4, Framer Motion, Lucide Icons, Recharts, Signature Pad
 - **Backend**: Next.js API Routes (Serverless Functions), Zod Validation, NextAuth.js
@@ -49,7 +49,7 @@
 
 ---
 
-## 🚀 Getting Started (การติดตั้งและรันในเครื่อง)
+## Getting Started (การติดตั้งและรันในเครื่อง)
 
 ### 1. Clone repository
 ```bash
@@ -91,6 +91,6 @@ npm run start
 
 ---
 
-## 👤 Developer & Maintainer
+## Developer & Maintainer
 - **Pawalit (Legxcy77)** - *Lead Full-Stack Developer & Architecture Maintainer*
   - GitHub: [@Legxcy77](https://github.com/Legxcy77)
