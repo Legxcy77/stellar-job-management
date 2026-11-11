@@ -5,9 +5,12 @@ import { useJobStore } from "./jobStore";
 
 export type Inventory = {
   id: string;
+  sku?: string | null;
   name: string;
+  category?: string | null;
   imageUrl?: string | null;
   quantity: number;
+  minStock?: number;
   location?: string | null;
   status: "พร้อมใช้" | "ใกล้หมด" | "หมด";
   type: "ต้องคืน" | "ไม่ต้องคืน";
@@ -21,9 +24,13 @@ export type InventoryRequest = {
   id: string;
   jobId: string;
   status: InventoryRequestStatus;
+  items?: string;
   requestedItems: { id: string; qty: number }[];
   requestedBy: { id: string; name: string };
   requestedAt: string;
+  processedById?: string | null;
+  processedBy?: { id: string; name: string } | null;
+  processedAt?: string | null;
   approvedBy?: { id: string; name: string } | null;
   approvedAt?: string | null;
   rejectedBy?: { id: string; name: string } | null;

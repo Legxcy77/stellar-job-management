@@ -55,6 +55,7 @@ export async function GET() {
     }
 
     monthlyCompletions.forEach(job => {
+        if (!job.updatedAt) return;
         const monthYear = job.updatedAt.toLocaleString('th-TH', { month: 'short', year: '2-digit' });
         if (monthlyData[monthYear] !== undefined) {
             monthlyData[monthYear]++;

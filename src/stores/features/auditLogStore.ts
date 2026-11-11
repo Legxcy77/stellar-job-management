@@ -29,6 +29,9 @@ export interface AuditLog {
     name: string;
     role: string;
   };
+  performedById?: string;
+  performedByName?: string;
+  performedByRole?: string;
   timestamp: string;
   details?: string;
   changes?: {

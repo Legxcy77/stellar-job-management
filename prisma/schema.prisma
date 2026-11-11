@@ -2,12 +2,14 @@
 // learn more about it in the docs: https://pris.ly/d/prisma-schema
 
 generator client {
-  provider = "prisma-client-js"
+  provider        = "prisma-client-js"
+  previewFeatures = ["driverAdapters"]
 }
 
 datasource db {
   provider  = "postgresql"
   url       = env("DATABASE_URL")
+  directUrl = env("DATABASE_URL_UNPOOLED")
 }
 
 // --- Enums ---
@@ -51,6 +53,12 @@ model User {
   assignedIssues      Report[]  @relation("ReportAssignee")
   
   updatedWorkLogs     WorkLog[]
+
+  requestedInventories InventoryRequest[] @relation("InventoryRequestedBy")
+  processedInventories InventoryRequest[] @relation("InventoryProcessedBy")
+
+  requestedCompletions CompletionRequest[] @relation("CompletionRequestedBy")
+  processedCompletions CompletionRequest[] @relation("CompletionProcessedBy")
 }
 
 model Job {
@@ -76,6 +84,7 @@ model Job {
   inventoryStatus     String    @default("pending") // pending, approved, rejected
   
   createdAt           DateTime  @default(now())
+  updatedAt           DateTime? @updatedAt
   startDate           DateTime?
   endDate             DateTime?
   
@@ -97,6 +106,8 @@ model Job {
   
   workLogs            WorkLog[]
   reports             Report[]
+  inventoryRequests   InventoryRequest[]
+  completionRequest   CompletionRequest?
 }
 
 model Task {
@@ -122,14 +133,47 @@ model WorkLog {
 
 model Inventory {
   id          String   @id @default(uuid())
+  sku         String?
   name        String
   imageUrl    String?
+  category    String?
   quantity    Int      @default(0)
+  minStock    Int      @default(5)
   location    String?
   status      String   @default("พร้อมใช้")
   type        String   @default("ไม่ต้องคืน")
   price       Float    @default(0)
   requireFrom String?
+}
+
+model InventoryRequest {
+  id            String    @id @default(uuid())
+  jobId         String
+  job           Job       @relation(fields: [jobId], references: [id], onDelete: Cascade)
+  items         String    // JSON: { id: string, qty: number }[]
+  status        String    @default("pending") // pending, approved, rejected
+  note          String?
+  requestedById String
+  requestedBy   User      @relation("InventoryRequestedBy", fields: [requestedById], references: [id])
+  requestedAt   DateTime  @default(now())
+  processedById String?
+  processedBy   User?     @relation("InventoryProcessedBy", fields: [processedById], references: [id])
+  processedAt   DateTime?
+}
+
+model CompletionRequest {
+  id              String    @id @default(uuid())
+  jobId           String    @unique
+  job             Job       @relation(fields: [jobId], references: [id], onDelete: Cascade)
+  status          String    @default("pending") // pending, approved, rejected
+  signature       String?
+  rejectionReason String?
+  requestedById   String
+  requestedBy     User      @relation("CompletionRequestedBy", fields: [requestedById], references: [id])
+  requestedAt     DateTime  @default(now())
+  processedById   String?
+  processedBy     User?     @relation("CompletionProcessedBy", fields: [processedById], references: [id])
+  processedAt     DateTime?
 }
 
 model Report {

@@ -44,7 +44,7 @@ export async function GET(request: Request) {
       orderBy: { createdAt: 'desc' }
     };
 
-    let where: any = {};
+    const where: any = {};
     if (status) where.status = status;
     if (type) where.type = type;
     

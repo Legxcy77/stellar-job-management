@@ -1,11 +1,9 @@
 import "dotenv/config";
-import { PrismaClient } from '@prisma/client';
 import { fakerTH } from '@faker-js/faker';
 import bcrypt from 'bcryptjs';
+import { prisma } from '../src/lib/prisma';
 import { MOCK_USERS } from '../src/lib/mocks/user';
 import { MOCK_INVENTORIES } from '../src/lib/mocks/inventory';
-
-const prisma = new PrismaClient();
 
 const DEPT_OPTIONS = ["Electrical", "Mechanical", "Civil", "Technical"];
 
@@ -15,7 +13,7 @@ async function main() {
   // 1. Clean up
   const tablenames = await prisma.$queryRaw<
     Array<{ tablename: string }>
-  >`SELECT tablename FROM pg_tables WHERE schemaname='public'`;
+  >`SELECT tablename::text FROM pg_tables WHERE schemaname='public'`;
 
   for (const { tablename } of tablenames) {
     if (tablename !== '_prisma_migrations') {
