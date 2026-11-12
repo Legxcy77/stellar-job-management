@@ -3,8 +3,8 @@
 import { signIn } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { useState, FormEvent } from "react";
-import { motion, AnimatePresence } from "framer-motion";
-import { ArrowRight, LockKeyhole, MailIcon, Eye, EyeClosed } from "lucide-react";
+import { motion } from "framer-motion";
+import { ArrowRight, LockKeyhole, MailIcon, Eye, EyeClosed, ShieldCheck, Wrench, UserCheck } from "lucide-react";
 import Link from "next/link";
 import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
@@ -17,6 +17,35 @@ export default function LoginPage() {
     const [error, setError] = useState<string | null>(null);
     const [isLoading, setIsLoading] = useState(false);
     const [passwordVisible, setPasswordVisible] = useState(false);
+
+    const DEMO_PRESETS = [
+        {
+            role: "Admin",
+            label: "Admin",
+            email: "somchai.admin@company.com",
+            icon: ShieldCheck,
+        },
+        {
+            role: "Lead Tech",
+            label: "Lead",
+            email: "somsak.lead@company.com",
+            icon: Wrench,
+        },
+        {
+            role: "Technician",
+            label: "Tech",
+            email: "emp1@company.com",
+            icon: UserCheck,
+        },
+    ];
+
+    const applyDemoAccount = (demoEmail: string, roleName: string) => {
+        setEmail(demoEmail);
+        setPassword("password123");
+        setStep("password");
+        setError(null);
+        toast.info(`กรอกข้อมูลบทบาท ${roleName} สำเร็จ`);
+    };
 
     const isEmailValid = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
 
@@ -184,12 +213,31 @@ export default function LoginPage() {
                         </Link>
                     </div>
 
-                    {/* Demo Accounts Hint */}
-                    <div className="mt-8 pt-4 border-t border-dashed border-gray-200">
-                        <p className="text-xs text-center text-gray-400 mb-2">Demo Accounts</p>
-                        <div className="flex flex-wrap justify-center gap-2 text-xs text-gray-500">
-                            <span className="bg-gray-50 px-2 py-1 rounded border border-gray-100">Admin: admin@techjob.com / 123456</span>
-                            <span className="bg-gray-50 px-2 py-1 rounded border border-gray-100">User: employee@techjob.com / 123456</span>
+                    {/* Demo Accounts Presets */}
+                    <div className="mt-8 pt-4 border-t border-dashed border-gray-200 text-center">
+                        <p className="text-[11px] font-medium uppercase tracking-wider text-gray-400 mb-2.5">
+                            Demo Accounts (Auto-Fill)
+                        </p>
+                        <div className="flex items-center justify-center gap-2">
+                            {DEMO_PRESETS.map((item) => {
+                                const IconComponent = item.icon;
+                                const isSelected = email === item.email;
+                                return (
+                                    <button
+                                        key={item.role}
+                                        type="button"
+                                        onClick={() => applyDemoAccount(item.email, item.role)}
+                                        className={`px-3 py-1.5 rounded-full text-xs font-medium inline-flex items-center gap-1.5 border transition-all cursor-pointer ${
+                                            isSelected
+                                                ? "bg-black text-white border-black shadow-sm"
+                                                : "bg-gray-50 text-gray-600 border-gray-200 hover:bg-gray-100 hover:text-black hover:border-gray-300"
+                                        }`}
+                                    >
+                                        <IconComponent size={13} className={isSelected ? "text-white" : "text-gray-500"} />
+                                        <span>{item.label}</span>
+                                    </button>
+                                );
+                            })}
                         </div>
                     </div>
                 </form>
