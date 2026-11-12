@@ -524,7 +524,7 @@ const InventoryManagement = () => {
   };
 
   return (
-    <div className="p-3 sm:p-6">
+    <div id="tour-inventory-header" className="p-3 sm:p-6">
       <Tabs defaultValue="inventory" className="w-full">
         <TabsList className="mb-4">
           <TabsTrigger value="inventory">การจัดการอุปกรณ์</TabsTrigger>
@@ -598,7 +598,7 @@ const InventoryManagement = () => {
           </div>
 
           {/* DESKTOP: DataTable (uses inventoryStore as source) */}
-          <div className="hidden md:block">
+          <div id="tour-inventory-table" className="hidden md:block">
             <DataTable
               columns={columns}
               data={inventories}

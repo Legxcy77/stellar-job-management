@@ -260,7 +260,7 @@ export default function LeafletMapPage() {
   };
 
   return (
-    <div className="w-full h-screen relative">
+    <div id="tour-map-container" className="w-full h-screen relative">
       {/* Map */}
       <MapContainer
         center={[13.736717, 100.523186]}
@@ -278,7 +278,7 @@ export default function LeafletMapPage() {
       </MapContainer>
 
       {/* Floating Sidebar */}
-      <aside className="absolute bottom-0 sm:top-0 left-0 sm:right-0 max-w-full sm:max-h-full sm:max-w-sm overflow-y-scroll sm:overflow-x-auto max-h-[calc(100vh-2rem)] z-[1000]">
+      <aside id="tour-map-sidebar" className="absolute bottom-0 sm:top-0 left-0 sm:right-0 max-w-full sm:max-h-full sm:max-w-sm overflow-y-scroll sm:overflow-x-auto max-h-[calc(100vh-2rem)] z-[1000]">
         <div className="sticky left-0 top-0 flex flex-col gap-1.5 bg-gradient-to-r from-background to-background/50 px-4 backdrop-blur-sm  py-2">
           <InputGroup>
             <InputGroupInput

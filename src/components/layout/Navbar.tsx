@@ -19,6 +19,7 @@ import { useJobStore } from "@/stores/features/jobStore";
 import { useInventoryStore } from "@/stores/features/inventoryStore";
 
 import GlobalSearch from "../global/GlobalSearch";
+import PageGuideTour from "../global/PageGuideTour";
 import Link from "next/link";
 
 interface NavbarProps {
@@ -103,9 +104,14 @@ export default function Navbar({ onToggleSidebar }: NavbarProps) {
         <AppBreadcrumbs />
       </div>
 
-      <div className="flex items-center gap-4">
+      <div className="flex items-center gap-3">
+        {/* Page Tour Guide */}
+        <PageGuideTour />
+
         {/* Right Section */}
-        <GlobalSearch />
+        <div id="tour-global-search">
+          <GlobalSearch />
+        </div>
 
         <DropdownMenu>
           <DropdownMenuTrigger asChild className="hidden md:flex ">

@@ -107,6 +107,9 @@ importers:
       dotenv:
         specifier: ^17.2.3
         version: 17.4.2
+      driver.js:
+        specifier: ^1.11.0
+        version: 1.11.0
       embla-carousel-react:
         specifier: ^8.6.0
         version: 8.6.0(react@19.1.0)
@@ -3124,6 +3127,9 @@ packages:
   drange@1.1.1:
     resolution: {integrity: sha512-pYxfDYpued//QpnLIm4Avk7rsNtAtQkUES2cwAYSvD/wd2pKD71gN2Ebj3e7klzXwjocvE8c5vx/1fxwpqmSxA==}
     engines: {node: '>=4'}
+
+  driver.js@1.11.0:
+    resolution: {integrity: sha512-Xp/tYNYQ4Wth6AN3HqVVYdrCF4ahe4FVBDphWKylVDBBbeDEsFqnogxko6Gv30Yf9T/B92g0RZOCp4xfl1gqqw==}
 
   dunder-proto@1.0.1:
     resolution: {integrity: sha512-KIN/nDJBQRcXw0MLVhZE9iQHmG68qAVIBg9CqmUYjmQIhgij9U5MFvrqkUL5FbtyyzZuOeOt0zdeRe4UY7ct+A==}
@@ -8770,6 +8776,8 @@ snapshots:
   dotenv@17.4.2: {}
 
   drange@1.1.1: {}
+
+  driver.js@1.11.0: {}
 
   dunder-proto@1.0.1:
     dependencies:

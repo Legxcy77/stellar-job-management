@@ -607,7 +607,7 @@ const JobsList = () => {
     <div className="p-3 sm:p-6">
       <div className="flex flex-row items-center justify-between">
         {/* HEADER SECTION */}
-        <div className="mb-4 sm:mb-6">
+        <div id="tour-jobs-header" className="mb-4 sm:mb-6">
           <h1 className="text-2xl sm:text-3xl font-bold text-gray-900 dark:text-white mb-1 sm:mb-2">
             Jobs List
           </h1>
@@ -618,7 +618,7 @@ const JobsList = () => {
 
 
         {/* ACTION BAR */}
-        <div className="mb-4 sm:mb-4 flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3">
+        <div id="tour-jobs-actions" className="mb-4 sm:mb-4 flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3">
           <div />
           <div className="flex items-center gap-2">
             <Button
@@ -661,7 +661,7 @@ const JobsList = () => {
 
         <TabsContent value="jobs" className="mt-4">
           {/* FILTERS SECTION */}
-          <Card className="mb-4 sm:mb-6 p-4 gap-0 rounded-lg border">
+          <Card id="tour-jobs-filter" className="mb-4 sm:mb-6 p-4 gap-0 rounded-lg border">
             <div className="flex flex-wrap items-center gap-3 mb-3">
               <div className="flex items-center gap-2">
                 <Filter className="h-4 w-4 text-gray-500" />
@@ -781,7 +781,7 @@ const JobsList = () => {
 
 
           {/* DESKTOP: DataTable */}
-          <div className="hidden md:block">
+          <div id="tour-jobs-table" className="hidden md:block">
             <DataTable
               columns={columns}
               data={filteredJobs} // 17. ใช้ข้อมูล filteredJobs
